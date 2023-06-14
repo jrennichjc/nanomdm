@@ -9,6 +9,7 @@ import (
 	"github.com/micromdm/nanomdm/log"
 	"github.com/micromdm/nanomdm/storage"
 	"github.com/micromdm/nanomdm/storage/allmulti"
+	"github.com/micromdm/nanomdm/storage/dynamo"
 	"github.com/micromdm/nanomdm/storage/file"
 	"github.com/micromdm/nanomdm/storage/mysql"
 	"github.com/micromdm/nanomdm/storage/pgsql"
@@ -80,6 +81,12 @@ func (s *Storage) Parse(logger log.Logger) (storage.AllStorage, error) {
 				return nil, err
 			}
 			mdmStorage = append(mdmStorage, pgsqlStorage)
+		case "dynamo":
+			dynamoStorage, err := dynamoStorageConfig(dsn, options, logger)
+			if err != nil {
+				return nil, err
+			}
+			mdmStorage = append(mdmStorage, dynamoStorage)
 		default:
 			return nil, fmt.Errorf("unknown storage: %s", storage)
 		}
@@ -165,4 +172,13 @@ func pgsqlStorageConfig(dsn, options string, logger log.Logger) (*pgsql.PgSQLSto
 		}
 	}
 	return pgsql.New(opts...)
+}
+
+func dynamoStorageConfig(dsn, options string, logger log.Logger) (*dynamo.DSDynamoTable, error) {
+	logger = logger.With("storage", "dynamo")
+	opts := []dynamo.Option{
+		dynamo.WithDSN(dsn),
+		dynamo.WithLogger(logger),
+	}
+	return dynamo.New(opts...)
 }
