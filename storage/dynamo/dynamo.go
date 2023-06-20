@@ -144,7 +144,9 @@ func New(opts ...Option) (*DSDynamoTable, error) {
 	}
 
 	svc := dynamodb.NewFromConfig(cfg)
+
 	tablename := "nanomdm"
+
 	if dynamocfg.dsn != "" {
 		tablename = dynamocfg.dsn
 	}
@@ -250,7 +252,10 @@ func (s DSDynamoTable) StoreAuthenticate(r *mdm.Request, msg *mdm.Authenticate) 
 	idCert := dsIdentityCert{
 		Device:   "device#" + r.ID,
 		Category: IdentityCertFilename,
-		Cert:     string(cryptoutil.PEMCertificate(r.Certificate.Raw)),
+	}
+
+	if r.Certificate != nil {
+		idCert.Cert = string(cryptoutil.PEMCertificate(r.Certificate.Raw))
 	}
 
 	serial := dsGenericItem{

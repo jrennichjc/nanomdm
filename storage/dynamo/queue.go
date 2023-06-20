@@ -14,19 +14,19 @@ import (
 )
 
 const (
-	subNotNow   = "QueueNotNow"
+	subNotNow   = "NotNow"
 	subQueue    = "Queue"
 	subDone     = "QueueDone"
 	subInactive = "QueueInactive"
 )
 
 type dsCommand struct {
-	Queue       string `dynamodbav:"pk"`
-	Command     string `dynamodbav:"sk"`
-	Payload     string `dynamodbav:"bstoken"`
-	Status      string `dynamodbav:"status"`
-	LastUpdated string `dynamodbav:"last_updated"`
-	Result      string `dynamodbav:"result"`
+	Queue         string `dynamodbav:"pk"`
+	Command       string `dynamodbav:"sk"`
+	Payload       string `dynamodbav:"bstoken"`
+	Status        string `dynamodbav:"status"`
+	LastUpdated   string `dynamodbav:"last_updated"`
+	Result        string `dynamodbav:"result"`
 }
 
 // EnqueueCommand writes the command to disk in the queue directory
@@ -115,7 +115,7 @@ func (s *DSDynamoTable) getAllCommands(id string, commands *[]dsCommand, skipNot
 			ExpressionAttributeValues: map[string]types.AttributeValue{
 				":pkey":        &types.AttributeValueMemberS{Value: "queue#" + id},
 				":queue":       &types.AttributeValueMemberS{Value: "Queue"},
-				":queueNotNow": &types.AttributeValueMemberS{Value: "QueueNotNow"},
+				":queueNotNow": &types.AttributeValueMemberS{Value: "NotNow"},
 			},
 			ExpressionAttributeNames: map[string]string{
 				"#DDB_pk":     "pk",

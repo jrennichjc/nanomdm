@@ -7,8 +7,6 @@ import (
 	"testing"
 
 	"github.com/micromdm/nanomdm/storage/internal/test"
-
-	_ "github.com/go-sql-driver/mysql"
 )
 
 func TestQueue(t *testing.T) {

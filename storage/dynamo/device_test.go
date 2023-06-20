@@ -26,7 +26,7 @@ func (d *Device) EnrollID() *mdm.EnrollID {
 
 func loadAuthMsg() (*mdm.Authenticate, Device, error) {
 	var d Device
-	b, err := ioutil.ReadFile("../../mdm/testdata/Authenticate.2.plist")
+	b, err := ioutil.ReadFile("/Users/mactroll/Local Source/mdm-dm/nanomdm/mdm/testdata/Authenticate.2.plist")
 	if err != nil {
 		return nil, d, err
 	}
@@ -43,7 +43,7 @@ func loadAuthMsg() (*mdm.Authenticate, Device, error) {
 }
 
 func loadTokenMsg() (*mdm.TokenUpdate, error) {
-	b, err := ioutil.ReadFile("../../mdm/testdata/TokenUpdate.2.plist")
+	b, err := ioutil.ReadFile("/Users/mactroll/Local Source/mdm-dm/nanomdm/mdm/testdata/TokenUpdate.2.plist")
 	if err != nil {
 		return nil, err
 	}
